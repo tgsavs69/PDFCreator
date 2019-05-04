@@ -1,4 +1,4 @@
-How to use PDFCreator:
+<h1>How to use PDFCreator:<\h1>
 
 1. Download all the files from GitHub and save them on your computer.
 
