@@ -4,6 +4,7 @@
 
 2. To launch the client, you have to double click on "PDFCreator.jar"
 
+#### Further instructions: https://youtu.be/zVjDpSNDxEI
 
 ## There are 3 main sections in the interface:
 ### I. OVERVIEW
