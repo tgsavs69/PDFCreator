@@ -28,13 +28,13 @@ After you completed all report details, you have to click on "Generate report". 
 
 Here you can connect to the Arduino to receive data.
 Steps:
-####1. Plug Arduino board to the computer.
-####2. Wait some time (5 seconds) then click on "Refresh" button.
-####3. Select the right COM port.
-####4. Click "Connect".
+#### 1. Plug Arduino board to the computer.
+#### 2. Wait some time (5 seconds) then click on "Refresh" button.
+#### 3. Select the right COM port.
+#### 4. Click "Connect".
 
 Now, the status should change from "Disconnected" to "Connected".
 
 
-##BUGS
+## BUGS
 No bugs known yet.
