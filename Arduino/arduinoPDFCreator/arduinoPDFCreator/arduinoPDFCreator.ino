@@ -103,7 +103,7 @@ void printResult() {
 
 
 void sendResultToClient() {
-  startTime = millis();
+  long startTime = millis();
   while (millis() - startTime < 5000) {
     Serial.print(stages[currentMode]);
     Serial.print("!");
