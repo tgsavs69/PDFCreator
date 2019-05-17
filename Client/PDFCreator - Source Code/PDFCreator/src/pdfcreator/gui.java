@@ -263,6 +263,7 @@ public class gui extends javax.swing.JFrame {
         floorLiftCVValue = new javax.swing.JLabel();
         highNearValue17 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -944,6 +945,14 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jButton8.setText("Start test");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -962,7 +971,8 @@ public class gui extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 18, Short.MAX_VALUE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -978,7 +988,10 @@ public class gui extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -1143,7 +1156,7 @@ public class gui extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 690, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Generate raport", jPanel6);
+        jTabbedPane1.addTab("Generate report", jPanel6);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1318,12 +1331,17 @@ public class gui extends javax.swing.JFrame {
         jButton7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jButton7.setText("LOAD");
         jButton7.setPreferredSize(new java.awt.Dimension(185, 70));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
             .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel15Layout.setVerticalGroup(
@@ -1348,7 +1366,7 @@ public class gui extends javax.swing.JFrame {
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1370,8 +1388,8 @@ public class gui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1763,8 +1781,8 @@ public class gui extends javax.swing.JFrame {
                 throw new Exception("No Arduino connected");
             }
 
-            int numberOfSamples=0;
-            int liftingTime=0;
+            int numberOfSamples = 0;
+            int liftingTime = 0;
             try {
                 numberOfSamples = Integer.parseInt(numberOfSamplesValue.getText());
             } catch (NumberFormatException ex) {
@@ -1782,6 +1800,38 @@ public class gui extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    void updateConfig(String paramA, String paramB) {
+        numberOfSamplesValue.setText(paramA);
+        liftingTimeValue.setText(paramB);
+    }
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        try {
+            System.out.println("Asking for configuration");
+            if (communication == null) {
+                throw new Exception("No Arduino connected");
+            }
+            communication.loadConfiguration();
+        } catch (Exception ex) {
+            displayError(ex.getMessage());
+
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+ try {
+            System.out.println("Asking for configuration");
+            if (communication == null) {
+                throw new Exception("No Arduino connected");
+            }
+            communication.startTest();
+        } catch (Exception ex) {
+            displayError(ex.getMessage());
+
+        }
+        
+             // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1857,13 +1907,11 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel floorLiftValue1;
     private javax.swing.JLabel floorLiftValue2;
     private javax.swing.JLabel floorLiftValue3;
-    private javax.swing.JLabel floorLiftValue6;
     private javax.swing.JLabel floorLiftValueSummary;
     private javax.swing.JLabel highFarCVValue;
     private javax.swing.JLabel highFarValue1;
     private javax.swing.JLabel highFarValue2;
     private javax.swing.JLabel highFarValue3;
-    private javax.swing.JLabel highFarValue6;
     private javax.swing.JLabel highFarValueSummary;
     private javax.swing.JLabel highNearCVValue;
     private javax.swing.JLabel highNearValue1;
@@ -1873,7 +1921,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel highNearValue17;
     private javax.swing.JLabel highNearValue2;
     private javax.swing.JLabel highNearValue3;
-    private javax.swing.JLabel highNearValue6;
     private javax.swing.JLabel highNearValue9;
     private javax.swing.JLabel highNearValueSummary;
     private javax.swing.JButton jButton1;
@@ -1883,6 +1930,7 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1906,11 +1954,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -1929,7 +1972,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
@@ -1948,7 +1990,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel kneeLiftValue1;
     private javax.swing.JLabel kneeLiftValue2;
     private javax.swing.JLabel kneeLiftValue3;
-    private javax.swing.JLabel kneeLiftValue6;
     private javax.swing.JLabel kneeLiftValueSummary;
     private javax.swing.JTextField liftingTimeValue;
     private javax.swing.JTextField numberOfSamplesValue;
@@ -1957,7 +1998,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel overviewLabel1;
     private javax.swing.JLabel overviewLabel2;
     private javax.swing.JLabel overviewLabel4;
-    private javax.swing.JLabel overviewLabel6;
     private javax.swing.JLabel overviewLabel7;
     private javax.swing.JLabel overviewLabel8;
     private javax.swing.JTextField phoneNumber;
@@ -1968,7 +2008,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel waistLiftValue1;
     private javax.swing.JLabel waistLiftValue2;
     private javax.swing.JLabel waistLiftValue3;
-    private javax.swing.JLabel waistLiftValue6;
     private javax.swing.JLabel waistLiftValueSummary;
     // End of variables declaration//GEN-END:variables
 }

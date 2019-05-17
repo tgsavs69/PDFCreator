@@ -1,4 +1,5 @@
 int currentMode = 0;
+int lastMode = -1;
 double currentValue = 0;
 long lastReading = 0;
 double firstTerm = 0.0;

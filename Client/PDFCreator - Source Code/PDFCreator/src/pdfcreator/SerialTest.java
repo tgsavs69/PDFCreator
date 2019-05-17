@@ -124,6 +124,7 @@ public class SerialTest implements SerialPortEventListener {
        String firstParam = Integer.toString(paramA);
        String secondParam = Integer.toString(paramB);
        String messageToArduino ="config:" + firstParam + ";"+secondParam+"#";
+        output.write(messageToArduino.getBytes());
        System.out.println(messageToArduino);
        
         
@@ -133,6 +134,17 @@ public class SerialTest implements SerialPortEventListener {
         output.write(messageToArduino.getBytes());
         System.out.println("Arduino reseted");
     }
+    
+    public void loadConfiguration() throws IOException{
+        System.out.println("sending sendConfig# to arduino");
+        String messageToArduino = "sendConfig#";
+        output.write(messageToArduino.getBytes());
+    }
+    
+    public void startTest() throws IOException{
+        String messageToArduino = "startTest#";
+        output.write(messageToArduino.getBytes()); 
+   }
 
     public int[] records = {0, 0, 0, 0, 0};
     public String[] states = {"High Near", "High Far", "Waist Lift", "Knee Lift", "Floor Lift"};
@@ -144,6 +156,14 @@ public class SerialTest implements SerialPortEventListener {
             try {
                 String inputLine = input.readLine();
                 System.out.println(inputLine);
+               
+                if(inputLine.indexOf("config") >= 0){
+                   System.out.println("message received ->" +inputLine);
+                  
+                  String paramA = inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf(";"));
+                  String paramB = inputLine.substring(inputLine.indexOf(";") + 1);
+                  guiWindow.updateConfig(paramA,paramB);
+               }
                 for (int i = 0; i < states.length; i++) {
                     if (inputLine.contains(states[i]) == true) {
                         String liftValue = inputLine.substring(inputLine.indexOf('!') + 1, inputLine.indexOf('$'));

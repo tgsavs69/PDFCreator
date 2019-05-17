@@ -52,7 +52,7 @@ void loadConfiguration() {
 
   EEPROM_readAnything(0, configuration);
 
-
+  
   int errorReading = false;
   if (configuration.numberOfSamples == 0) {
     Serial.println("Invalid number of samples");

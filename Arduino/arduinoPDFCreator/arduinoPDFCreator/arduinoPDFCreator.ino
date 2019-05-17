@@ -20,31 +20,38 @@ void startHX711() {
   scale.tare();
 }
 
-void resetData() {
+void resetArduino() {
+
   currentMode = 0;
+  lastMode = -1;
+  /*
   currentValue = 0;
   lastReading = 0;
-  /*initialise the history matrix with value -1*/
+
+ 
+ 
+  //initialise the history matrix with value -1
   for (int i = 0; i < numberOfStages; i++) {
     for (int j = 0; j < numberOfSamples; j++) {
       history[i][j] = -1;
     }
   }
 
-  /*reset maximum array to value -1*/
+  //reset maximum array to value -1
   for (int i = 0; i < numberOfStages; i++) {
     maximum[i] = -1;
   }
 
-  /*reset current sum array to value -1*/
+  //reset current sum array to value -1
   for (int i = 0; i < numberOfStages; i++) {
     currentSum[i] = -1 * numberOfSamples;
   }
 
-  /*reset maximum array to value -1*/
+  //reset maximum array to value -1
   for (int i = 0; i < numberOfStages; i++) {
     coefficientOfVariation[i] = -1;
   }
+  */
 }
 
 void setup() {
@@ -52,7 +59,7 @@ void setup() {
   startLCD();
   startHX711();
 
-  loadConfiguration();
+  // loadConfiguration();
 
   /*configure the switchPins as INPUT_PULLUP*/
   for (int i = 0; i < numberOfStages; i++) {
@@ -62,21 +69,22 @@ void setup() {
   Serial.begin(115200);
 
 
-  resetData();
+  resetArduino();
+  EEPROM_readAnything(0, configuration);
+
 
 
 
 }
-
-void changeMode() {
+int currentStage = 0;
+void changeStage() {
   /*wait until the user changed to the required mode*/
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Change to");
   lcd.setCursor(0, 1);
   lcd.print("   ");
-  lcd.print(stages[currentMode]);
-  while (digitalRead(switchPins[currentMode]) == 1);
+  lcd.print(stages[currentStage]);
 }
 
 
@@ -85,10 +93,10 @@ void waitLift() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Mode: ");
-  lcd.print(stages[currentMode]);
+  lcd.print(stages[currentStage]);
   lcd.setCursor(0, 1);
   lcd.print("Waiting to lift...");
-  while (scale.get_units() < 1);
+ 
 }
 
 void printResult() {
@@ -117,9 +125,50 @@ void sendResultToClient() {
   }
 }
 
+
+void waitingToStart() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("     Welcome ");
+  lcd.setCursor(0, 1);
+  lcd.print("Waiting to start");
+
+}
+
+
+
+
+long displayConfig = millis();
+long debounce = 0;
 void loop() {
 
-  while (currentMode < numberOfStages) {
+  if (currentMode != lastMode) {
+    switch (currentMode) {
+      case 0: waitingToStart(); break;
+      case 1: changeStage(); break;
+
+      case 2: waitLift();break;
+    }
+    lastMode = currentMode;
+  }
+
+  if(currentMode == 1 && digitalRead(switchPins[currentStage]) == 0 && debounce == 0){
+  debounce = millis();   
+  }
+  if(digitalRead(switchPins[currentStage]) == 1){
+    debounce = 0;
+  }
+  if(debounce != 0 && millis() - debounce > 1000){
+    currentMode++;
+  }
+ 
+
+
+
+
+
+  /*
+    while (currentMode < numberOfStages) {
 
     changeMode();
     waitLift();
@@ -147,8 +196,8 @@ void loop() {
     sendResultToClient();
     currentMode++;
 
-  }
-
+    }
+  */
 
   if (Serial.available()) {
     delay(100);
@@ -160,14 +209,63 @@ void loop() {
       c = Serial.read();
       delay(10);
     }
-    Serial.println("arduino restarted");
+
+    if(message.indexOf("startTest") >=0 && currentMode == 0){
+      currentMode = 1;
+    }
+
+    if (message.indexOf("sendConfig") >= 0) {
+      delay(500);
+      String message = "config:";
+      message += configuration.numberOfSamples;
+      message += ";";
+      message += configuration.liftingTime;
+
+      Serial.println(message);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Sending config");
+      lcd.setCursor(0, 1);
+      lcd.print(message);
+      displayConfig = millis();
+
+    }
+
+    if (message.indexOf("config") >= 0) {
+      String paramA = message.substring(message.indexOf(":") + 1, message.indexOf(";"));
+      String paramB = message.substring(message.indexOf(";") + 1);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("paramA: |");
+      lcd.print(paramA);
+      lcd.print("|");
+      lcd.setCursor(0, 1);
+      lcd.print("paramB: |");
+      lcd.print(paramB);
+      lcd.print("|");
+      displayConfig = millis();
+      configuration.numberOfSamples = paramA.toInt();
+      configuration.liftingTime = paramB.toInt();
+      EEPROM_writeAnything(0, configuration);
+    }
+
     if (message == "reset Arduino") {
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Device");
+      lcd.setCursor(0,1);
+      lcd.print("   Restarted");
       delay(2000);
-      Serial.println("arduino restarted");
-      resetData();
+      
+      resetArduino();
     }
 
 
   }
+
+
+
+
+
 
 }
