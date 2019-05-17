@@ -1,17 +1,6 @@
-//the history matrix is going to help us to calculate the maximum value of the last seconds
-
-double history[numberOfStages][numberOfSamples];
-double maximum[numberOfStages];
-double currentSum[numberOfStages];
-double coefficientOfVariation[numberOfStages];
-
-
 int currentMode = 0;
 double currentValue = 0;
 long lastReading = 0;
-
-
-
 double firstTerm = 0.0;
 double secondTerm = 0.0;
 double standardDeviation = 0.0;

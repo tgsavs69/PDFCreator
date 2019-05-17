@@ -1,5 +1,6 @@
 #include <HX711.h>
-
+#include <EEPROM.h>
+#include "EEPROMAnything.h"
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include "configuration.h"
@@ -51,6 +52,7 @@ void setup() {
   startLCD();
   startHX711();
 
+  loadConfiguration();
 
   /*configure the switchPins as INPUT_PULLUP*/
   for (int i = 0; i < numberOfStages; i++) {
@@ -123,15 +125,15 @@ void loop() {
     waitLift();
 
     long startTime = millis();
-    int displayTime = liftingTime / 1000 + 1;
-    while (millis() - startTime < liftingTime + 100) {
+    int displayTime = configuration.liftingTime / 1000 + 1;
+    while (millis() - startTime < configuration.liftingTime + 100) {
       if (millis() - lastReading > refreshRate) {
         refreshFunction();
 
 
         lcd.setCursor(0, 1);
         lcd.print("Time left ");
-        lcd.print((liftingTime - (millis() - startTime)) / 1000);
+        lcd.print((configuration.liftingTime - (millis() - startTime)) / 1000);
         lcd.print(" sec  ");
 
 
@@ -158,9 +160,10 @@ void loop() {
       c = Serial.read();
       delay(10);
     }
-
+    Serial.println("arduino restarted");
     if (message == "reset Arduino") {
-      //  Serial.println("arduino restarted");
+      delay(2000);
+      Serial.println("arduino restarted");
       resetData();
     }
 
