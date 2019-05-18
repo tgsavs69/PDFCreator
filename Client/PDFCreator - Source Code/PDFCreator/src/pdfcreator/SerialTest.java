@@ -47,28 +47,26 @@ public class SerialTest implements SerialPortEventListener {
         // the next line is for Raspberry Pi and 
         // gets us into the while loop and was suggested here was suggested https://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
         // System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
-        try{
-        CommPortIdentifier portId = null;
-        Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
+        try {
+            CommPortIdentifier portId = null;
+            Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
 
-        //First, Find an instance of serial port as set in PORT_NAMES.
-        while (portEnum.hasMoreElements()) {
-            CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+            //First, Find an instance of serial port as set in PORT_NAMES.
+            while (portEnum.hasMoreElements()) {
+                CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
 
-            if (currPortId.getName().equals(PORT_NAMES)) {
-                portId = currPortId;
-                break;
+                if (currPortId.getName().equals(PORT_NAMES)) {
+                    portId = currPortId;
+                    break;
+                }
+
+            }
+            if (portId == null) {
+                System.out.println("Could not find COM port.");
+                //  guiWindow.
+                return "error";
             }
 
-        }
-        if (portId == null) {
-            System.out.println("Could not find COM port.");
-            //  guiWindow.
-            return "error";
-        }
-        
-
-      
             // open serial port, and use class name for the appName.
             serialPort = (SerialPort) portId.open(this.getClass().getName(),
                     TIME_OUT);
@@ -86,19 +84,17 @@ public class SerialTest implements SerialPortEventListener {
             // add event listeners
             serialPort.addEventListener(this);
             serialPort.notifyOnDataAvailable(true);
-        } catch(UnsatisfiedLinkError e){
+        } catch (UnsatisfiedLinkError e) {
             System.out.println("e praf");
-            if(e.toString().contains("no rxtxSerial") == true){
+            if (e.toString().contains("no rxtxSerial") == true) {
                 guiWindow.displayError("Java is not configured correctly.\n rxtxSerial.dll not found");
             }
-        } 
-        catch (Exception e) {
-            System.out.println("Error ->"+ e.toString());
+        } catch (Exception e) {
+            System.out.println("Error ->" + e.toString());
             if (e.toString().contains("PortInUseException")) {
                 guiWindow.displayError("COM port in use.\nClose all programs that use that COM port");
             }
 
-            
             return "error";
         }
 
@@ -120,31 +116,31 @@ public class SerialTest implements SerialPortEventListener {
      * Handle an event on the serial port. Read the data and print it.
      */
     public void sendConfig(int paramA, int paramB) throws IOException {
-        
-       String firstParam = Integer.toString(paramA);
-       String secondParam = Integer.toString(paramB);
-       String messageToArduino ="config:" + firstParam + ";"+secondParam+"#";
+
+        String firstParam = Integer.toString(paramA);
+        String secondParam = Integer.toString(paramB);
+        String messageToArduino = "config:" + firstParam + ";" + secondParam + "#";
         output.write(messageToArduino.getBytes());
-       System.out.println(messageToArduino);
-       
-        
+        System.out.println(messageToArduino);
+
     }
+
     public void resetArduino() throws IOException {
         String messageToArduino = "reset Arduino#";
         output.write(messageToArduino.getBytes());
         System.out.println("Arduino reseted");
     }
-    
-    public void loadConfiguration() throws IOException{
+
+    public void loadConfiguration() throws IOException {
         System.out.println("sending sendConfig# to arduino");
         String messageToArduino = "sendConfig#";
         output.write(messageToArduino.getBytes());
     }
-    
-    public void startTest() throws IOException{
+
+    public void startTest() throws IOException {
         String messageToArduino = "startTest#";
-        output.write(messageToArduino.getBytes()); 
-   }
+        output.write(messageToArduino.getBytes());
+    }
 
     public int[] records = {0, 0, 0, 0, 0};
     public String[] states = {"High Near", "High Far", "Waist Lift", "Knee Lift", "Floor Lift"};
@@ -156,14 +152,27 @@ public class SerialTest implements SerialPortEventListener {
             try {
                 String inputLine = input.readLine();
                 System.out.println(inputLine);
-               
-                if(inputLine.indexOf("config") >= 0){
-                   System.out.println("message received ->" +inputLine);
-                  
-                  String paramA = inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf(";"));
-                  String paramB = inputLine.substring(inputLine.indexOf(";") + 1);
-                  guiWindow.updateConfig(paramA,paramB);
-               }
+
+                if (inputLine.indexOf("MAXIMUM") >= 0) {
+                    guiWindow.modifyValues(inputLine);
+                      
+                    /*
+                    maxA = inputLine.substring(0, inputLine.indexOf(":", occurence));
+                    occurence = inputLine.indexOf(inputLine.indexOf(":", occurence));
+                    maxB = inputLine.substring(occurence, inputLine.indexOf(":", occurence + 1));
+                    occurence = inputLine.indexOf(inputLine.indexOf(":", occurence));
+                    maxC = inputLine.substring(occurence, inputLine.indexOf("#"));
+                    System.out.println("max A ->" + maxA + " max B ->" + maxB + "max C -> "+ maxC);
+                     */
+                    //inputLine.indexOf(counter, counter)
+                }
+                if (inputLine.indexOf("config") >= 0) {
+                    System.out.println("message received ->" + inputLine);
+
+                    String paramA = inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf(";"));
+                    String paramB = inputLine.substring(inputLine.indexOf(";") + 1);
+                    guiWindow.updateConfig(paramA, paramB);
+                }
                 for (int i = 0; i < states.length; i++) {
                     if (inputLine.contains(states[i]) == true) {
                         String liftValue = inputLine.substring(inputLine.indexOf('!') + 1, inputLine.indexOf('$'));
@@ -186,7 +195,7 @@ public class SerialTest implements SerialPortEventListener {
     }
 
     public static void main(String[] args) throws Exception {
-        
+
         SerialTest main = new SerialTest();
         main.initialize();
 

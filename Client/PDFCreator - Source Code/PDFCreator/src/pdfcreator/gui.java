@@ -45,6 +45,56 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class gui extends javax.swing.JFrame {
 
+    public void modifyValues(String inputLine) {
+        System.out.println("maximum received");
+        int occurence = 0;
+        String maxA, maxB, maxC;
+
+        occurence = inputLine.indexOf(":") + 1;
+
+        maxA = inputLine.substring(occurence, inputLine.indexOf(":", occurence + 1));
+
+        occurence = inputLine.indexOf(":", occurence + 1) + 1;
+
+        maxB = inputLine.substring(occurence, inputLine.indexOf(":", occurence + 1));
+
+        occurence = inputLine.indexOf(":", occurence + 1) + 1;
+        maxC = inputLine.substring(occurence, inputLine.indexOf("#"));
+
+        if (inputLine.contains("HIGH NEAR")) {
+            highNearValue1.setText(maxA);
+            highNearValue2.setText(maxB);
+            highNearValue3.setText(maxC);
+            return;
+        }
+
+        if (inputLine.contains("HIGH FAR")) {
+            highFarValue1.setText(maxA);
+            highFarValue2.setText(maxB);
+            highFarValue3.setText(maxC);
+            return;
+        }
+
+        if (inputLine.contains("WAIST LIFT")) {
+            waistLiftValue1.setText(maxA);
+            waistLiftValue2.setText(maxB);
+            waistLiftValue3.setText(maxC);
+            return;
+        }
+        if (inputLine.contains("KNEE LIFT")) {
+            kneeLiftValue1.setText(maxA);
+            kneeLiftValue2.setText(maxB);
+            kneeLiftValue3.setText(maxC);
+            return;
+        }
+        if (inputLine.contains("FLOOR LIFT")) {
+            floorLiftValue1.setText(maxA);
+            floorLiftValue2.setText(maxB);
+            floorLiftValue3.setText(maxC);
+            return;
+        }
+    }
+
     void modifyLabel(String name, String value, String cv) {
         switch (name) {
             case "High Near":
@@ -1820,8 +1870,8 @@ public class gui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
- try {
-            System.out.println("Asking for configuration");
+        try {
+            System.out.println("Start test");
             if (communication == null) {
                 throw new Exception("No Arduino connected");
             }
@@ -1830,8 +1880,8 @@ public class gui extends javax.swing.JFrame {
             displayError(ex.getMessage());
 
         }
-        
-             // TODO add your handling code here:
+
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**

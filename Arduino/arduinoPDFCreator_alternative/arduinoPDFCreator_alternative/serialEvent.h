@@ -6,22 +6,22 @@ void parseMessage(String message) {
     String option =  message.substring(0, occurrence );
     if (option == "config") {
 
-      displayMessage("Configuration", "   Received", 3000);
+      displayMessage("CONFIGURATION", "   RECEIVED", 3000);
       return;
     }
 
   }
 
   if (message == "reset Arduino") {
-    displayMessage("Arduino", "   Restarted", 3000);
+    displayMessage("ARDUINO", "   RESTARTED", 3000);
     return;
   }
   if (message == "sendConfig") {
-    displayMessage("Configuration", "   Transmitted", 3000);
+    displayMessage("CONFIGURATION", "   TRANSMITTED", 3000);
     return;
   }
   if (message == "startTest") {
-    displayMessage("The test", "     has started", 3000);
+    displayMessage("THE TEST", "     HAS STARTED", 3000);
     testStarted = true;
     Serial.println(liftStarted);
     return;

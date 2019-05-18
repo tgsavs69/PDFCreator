@@ -41,5 +41,5 @@ void initLCD() {
   lcd.backlight();
   lcd.clear();
 
-  displayMessage("Welcome", "To The Test");
+  displayMessage("WELCOME", "TO THE TEST");
 }
