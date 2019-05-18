@@ -1,12 +1,13 @@
 #include "displayFile.h"
+#include "EEPROMAnything.h"
 
-int temporaryReads[16];
+
 int currentStage = 0;
 int currentTry = 1;
 int liftingTime = 4000;
 bool liftStarted = false;
 long startLiftingTime;
-int refreshRate = 500;
+int refreshRate = 250;
 int lastReadTime = 0;
 bool testStarted = false;
 bool liftReleased = false;
@@ -38,6 +39,7 @@ void resetData() {
     }
   }
 
+
   displayMessage("WELCOME", "TO THE TEST");
 }
 
@@ -56,11 +58,18 @@ void setup() {
   for (int i = 0; i < 5; i++) {
     pinMode(switchPins[i], INPUT_PULLUP);
   }
+
+  EEPROM_readAnything(0, liftingTime);
+
+  if (liftingTime < 500) {
+    liftingTime = 4000;
+  }
+
 }
 
 void loop() {
   currentReading = scale.get_units();
-  if (millis() - updateCurrentReading > refreshRate) {
+  if (millis() - updateCurrentReading > 500) {
     String tempCurrentReading = "currentReading:";
     tempCurrentReading += String(currentReading);
     tempCurrentReading += "#";
@@ -68,7 +77,10 @@ void loop() {
     updateCurrentReading = millis();
   }
 
-
+  if (currentStage == numberOfStages) {
+    displayMessage("TEST FINISHED", "RESET DATA");
+    return;
+  }
   if (testStarted == false) return;
 
   if (digitalRead(switchPins[currentStage]) == 1 && liftStarted == false) {

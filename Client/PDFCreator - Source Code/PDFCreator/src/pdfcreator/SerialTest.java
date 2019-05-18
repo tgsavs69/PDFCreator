@@ -115,11 +115,10 @@ public class SerialTest implements SerialPortEventListener {
     /**
      * Handle an event on the serial port. Read the data and print it.
      */
-    public void sendConfig(int paramA, int paramB) throws IOException {
+    public void sendConfig(int paramA) throws IOException {
 
         String firstParam = Integer.toString(paramA);
-        String secondParam = Integer.toString(paramB);
-        String messageToArduino = "config:" + firstParam + ";" + secondParam + "#";
+        String messageToArduino = "config:" + firstParam + "#";
         output.write(messageToArduino.getBytes());
         System.out.println(messageToArduino);
 
@@ -141,7 +140,7 @@ public class SerialTest implements SerialPortEventListener {
         String messageToArduino = "startTest#";
         output.write(messageToArduino.getBytes());
     }
-    
+
     public void tare() throws IOException {
         String messageToArduino = "tareTare#";
         output.write(messageToArduino.getBytes());
@@ -160,22 +159,21 @@ public class SerialTest implements SerialPortEventListener {
 
                 if (inputLine.indexOf("MAXIMUM") >= 0) {
                     guiWindow.modifyValues(inputLine);
-                   
+
                 }
-                
-                if(inputLine.contains("currentReading")){
-                   // System.out.println(inputLine);
+
+                if (inputLine.contains("currentReading")) {
+                    // System.out.println(inputLine);
                     guiWindow.modifyCurrentReading(inputLine);
-                    
+
                 }
-                
+
                 if (inputLine.indexOf("config") >= 0) {
                     System.out.println("message received ->" + inputLine);
 
-                    String paramA = inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf(";"));
-                    String paramB = inputLine.substring(inputLine.indexOf(";") + 1);
-                    guiWindow.updateConfig(paramA, paramB);
-                    
+                    String paramA = inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf("#"));
+                    guiWindow.updateConfig(paramA);
+
                 }
                 /*
                 for (int i = 0; i < states.length; i++) {

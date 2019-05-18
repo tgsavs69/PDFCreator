@@ -3,9 +3,12 @@
 void parseMessage(String message) {
   int occurrence = message.indexOf(":");
   if (occurrence != -1) {
-    String option =  message.substring(0, occurrence );
+    String option =  message.substring(0, occurrence);
     if (option == "config") {
-
+      String paramA = message.substring(message.indexOf(":") + 1, message.indexOf("#"));
+      liftingTime = (paramA.toInt()) * 1000;
+      Serial.println(liftingTime);
+      EEPROM_writeAnything(0, liftingTime);
       displayMessage("CONFIGURATION", "   RECEIVED", 3000);
       return;
     }
@@ -23,7 +26,14 @@ void parseMessage(String message) {
     return;
   }
   if (message == "sendConfig") {
+
+    String outputMessage = "config:";
+    outputMessage += liftingTime/1000;
+    outputMessage += "#";
+
+    Serial.println(outputMessage);
     displayMessage("CONFIGURATION", "   TRANSMITTED", 3000);
+
     return;
   }
   if (message == "startTest") {
