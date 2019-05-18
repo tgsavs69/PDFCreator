@@ -141,6 +141,11 @@ public class SerialTest implements SerialPortEventListener {
         String messageToArduino = "startTest#";
         output.write(messageToArduino.getBytes());
     }
+    
+    public void tare() throws IOException {
+        String messageToArduino = "tareTare#";
+        output.write(messageToArduino.getBytes());
+    }
 
     public int[] records = {0, 0, 0, 0, 0};
     public String[] states = {"High Near", "High Far", "Waist Lift", "Knee Lift", "Floor Lift"};

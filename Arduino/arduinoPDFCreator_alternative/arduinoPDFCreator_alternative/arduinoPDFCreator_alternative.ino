@@ -4,7 +4,7 @@ int currentTry = 1;
 int liftingTime = 4000;
 bool liftStarted = false;
 long startLiftingTime;
-int refreshRate = 250;
+int refreshRate = 500;
 int lastReadTime = 0;
 bool testStarted = false;
 bool liftReleased = false;
@@ -57,39 +57,28 @@ void loop() {
   if (liftStarted == false && scale.get_units() > 1) {
     liftStarted = true;
     startLiftingTime = millis();
-    displayMessage("LIFT", "    STARTED");
+    displayMessage("LIFT STARTED", "    STARTED");
     liftReleased = true;
   }
 
 
   if (lastReadTime < liftingTime / refreshRate) {
-    //if (millis() - startLiftingTime < liftingTime) {
-
-
 
     if ((millis() - startLiftingTime) / refreshRate != lastReadTime) {
       lastReadTime = (millis() - startLiftingTime) / refreshRate;
       double tempReading = scale.get_units();
+
       if (maximum[currentStage][currentTry - 1] < tempReading) {
         maximum[currentStage][currentTry - 1] = tempReading;
       }
-      /*    Serial.print(lastReadTime);
-            Serial.print(" -> ");
-            Serial.print(tempReading);
-            Serial.print("  maximum ->");
-            Serial.println(maximum[currentStage][currentTry - 1]);*/
+      displayMessage("LIFT STARTED", "Current " + String(tempReading));
+
     }
-
-    //Serial.println("READING");
-
   }
   else {
-    if (liftReleased == true) {
+    if (liftReleased == true && lastReadTime == liftingTime / refreshRate) {
 
-      /* Serial.print("The ");
-        Serial.print(currentTry);
-        Serial.println(" has finished. Prepare for the next one"); */
-      displayMessage("ATTEMPT" + String(currentTry), "FINISHED", 3000);
+      displayMessage("ATTEMPT " + String(currentTry), "MAXIMUM " + String(maximum[currentStage][currentTry - 1]), 3000);
       currentTry = currentTry + 1;
 
       liftReleased = false;
@@ -97,7 +86,7 @@ void loop() {
       if (currentTry == 4) {
         Serial.print("MAXIMUM ");
         Serial.print(stages[currentStage]);
-   
+
         for (int i = 0; i < 3; i++) {
           Serial.print(":");
           Serial.print(maximum[currentStage][i]);
@@ -106,7 +95,7 @@ void loop() {
         currentTry = 1;
         currentStage = currentStage + 1;
 
-        displayMessage("STAGE FINISHED", "max: 50 cv: 69%", 3000);
+        displayMessage("STAGE FINISHED", "", 3000);
 
       }
 

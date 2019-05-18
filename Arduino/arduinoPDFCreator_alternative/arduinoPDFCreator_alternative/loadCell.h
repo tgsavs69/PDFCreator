@@ -1,3 +1,4 @@
+#pragma once
 #include <HX711.h>
 
 #define calibration_factor 3000

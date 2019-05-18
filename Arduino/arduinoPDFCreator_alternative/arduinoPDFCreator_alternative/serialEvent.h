@@ -1,4 +1,4 @@
-
+#include "loadCell.h"
 
 void parseMessage(String message) {
   int occurrence = message.indexOf(":");
@@ -12,6 +12,11 @@ void parseMessage(String message) {
 
   }
 
+  if (message == "tareTare") {
+    scale.tare();
+    displayMessage("SCALE", "   RESETED", 3000);
+    return;
+  }
   if (message == "reset Arduino") {
     displayMessage("ARDUINO", "   RESTARTED", 3000);
     return;

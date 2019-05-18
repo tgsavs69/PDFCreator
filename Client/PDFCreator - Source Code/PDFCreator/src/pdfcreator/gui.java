@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import static java.lang.Math.sqrt;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,8 +62,27 @@ public class gui extends javax.swing.JFrame {
 
         occurence = inputLine.indexOf(":", occurence + 1) + 1;
         maxC = inputLine.substring(occurence, inputLine.indexOf("#"));
+        double doubleMaxA = Double.parseDouble(maxA);
+        double doubleMaxB = Double.parseDouble(maxB);
+        double doubleMaxC = Double.parseDouble(maxC);
+
+        double sampleMean = (doubleMaxA + doubleMaxB + doubleMaxC) / 3;
+
+        double firstTerm = (doubleMaxA - sampleMean) * (doubleMaxA - sampleMean);
+        double secondTerm = (doubleMaxB - sampleMean) * (doubleMaxB - sampleMean);
+        double thirdTerm = (doubleMaxC - sampleMean) * (doubleMaxC - sampleMean);
+
+        double sumTerms = firstTerm + secondTerm + thirdTerm;
+
+        double sampleStandardDeviation = sqrt(sumTerms / 2);
+
+        double coefficientOfVariation = sampleStandardDeviation / sampleMean;
+
+        coefficientOfVariation = coefficientOfVariation * 100;
+        DecimalFormat df = new DecimalFormat("###.##");
 
         if (inputLine.contains("HIGH NEAR")) {
+            highNearCVValue.setText(df.format(coefficientOfVariation));
             highNearValue1.setText(maxA);
             highNearValue2.setText(maxB);
             highNearValue3.setText(maxC);
@@ -69,6 +90,7 @@ public class gui extends javax.swing.JFrame {
         }
 
         if (inputLine.contains("HIGH FAR")) {
+            highFarCVValue.setText(df.format(coefficientOfVariation));
             highFarValue1.setText(maxA);
             highFarValue2.setText(maxB);
             highFarValue3.setText(maxC);
@@ -76,18 +98,21 @@ public class gui extends javax.swing.JFrame {
         }
 
         if (inputLine.contains("WAIST LIFT")) {
+            waistLiftCVValue.setText(df.format(coefficientOfVariation));
             waistLiftValue1.setText(maxA);
             waistLiftValue2.setText(maxB);
             waistLiftValue3.setText(maxC);
             return;
         }
         if (inputLine.contains("KNEE LIFT")) {
+            kneeLiftCVValue.setText(df.format(coefficientOfVariation));
             kneeLiftValue1.setText(maxA);
             kneeLiftValue2.setText(maxB);
             kneeLiftValue3.setText(maxC);
             return;
         }
         if (inputLine.contains("FLOOR LIFT")) {
+            floorLiftCVValue.setText(df.format(coefficientOfVariation));
             floorLiftValue1.setText(maxA);
             floorLiftValue2.setText(maxB);
             floorLiftValue3.setText(maxC);
@@ -314,6 +339,7 @@ public class gui extends javax.swing.JFrame {
         highNearValue17 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -1003,6 +1029,14 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        jButton9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jButton9.setText("Tare");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -1020,7 +1054,8 @@ public class gui extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -1040,6 +1075,8 @@ public class gui extends javax.swing.JFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -1884,6 +1921,19 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        try {
+            System.out.println("Tare function");
+            if (communication == null) {
+                throw new Exception("No Arduino connected");
+            }
+            communication.tare();
+        } catch (Exception ex) {
+            displayError(ex.getMessage());
+
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1982,6 +2032,7 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
