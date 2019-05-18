@@ -160,24 +160,24 @@ public class SerialTest implements SerialPortEventListener {
 
                 if (inputLine.indexOf("MAXIMUM") >= 0) {
                     guiWindow.modifyValues(inputLine);
-                      
-                    /*
-                    maxA = inputLine.substring(0, inputLine.indexOf(":", occurence));
-                    occurence = inputLine.indexOf(inputLine.indexOf(":", occurence));
-                    maxB = inputLine.substring(occurence, inputLine.indexOf(":", occurence + 1));
-                    occurence = inputLine.indexOf(inputLine.indexOf(":", occurence));
-                    maxC = inputLine.substring(occurence, inputLine.indexOf("#"));
-                    System.out.println("max A ->" + maxA + " max B ->" + maxB + "max C -> "+ maxC);
-                     */
-                    //inputLine.indexOf(counter, counter)
+                   
                 }
+                
+                if(inputLine.contains("currentReading")){
+                   // System.out.println(inputLine);
+                    guiWindow.modifyCurrentReading(inputLine);
+                    
+                }
+                
                 if (inputLine.indexOf("config") >= 0) {
                     System.out.println("message received ->" + inputLine);
 
                     String paramA = inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf(";"));
                     String paramB = inputLine.substring(inputLine.indexOf(";") + 1);
                     guiWindow.updateConfig(paramA, paramB);
+                    
                 }
+                /*
                 for (int i = 0; i < states.length; i++) {
                     if (inputLine.contains(states[i]) == true) {
                         String liftValue = inputLine.substring(inputLine.indexOf('!') + 1, inputLine.indexOf('$'));
@@ -188,7 +188,7 @@ public class SerialTest implements SerialPortEventListener {
                         break;
 
                     }
-                }
+                }*/
             } catch (Exception e) {
                 this.close();
                 guiWindow.arduinoDisconnected();

@@ -19,6 +19,7 @@ void parseMessage(String message) {
   }
   if (message == "reset Arduino") {
     displayMessage("ARDUINO", "   RESTARTED", 3000);
+    resetData();
     return;
   }
   if (message == "sendConfig") {

@@ -47,6 +47,11 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class gui extends javax.swing.JFrame {
 
+    public void modifyCurrentReading(String inputLine) {
+       // System.out.println(inputLine);
+       currentReadingLabel.setText(inputLine.substring(inputLine.indexOf(":") + 1, inputLine.indexOf("#")));
+    }
+
     public void modifyValues(String inputLine) {
         System.out.println("maximum received");
         int occurence = 0;
@@ -175,12 +180,12 @@ public class gui extends javax.swing.JFrame {
 
     public static JFreeChart generateBarChart(String highNear, String highFar, String waistLift, String kneeLift, String floorLift) {
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
-
-        dataSet.setValue(Integer.parseInt(highNear), "lifting from\nthe shoulders", "High Near");
-        dataSet.setValue(Integer.parseInt(highFar), "lifting above\nthe shoulders", "High Far");
-        dataSet.setValue(Integer.parseInt(waistLift), "lifting from\nthe waist", "Waist Lift");
-        dataSet.setValue(Integer.parseInt(kneeLift), "lifting from\nthe knees", "Knee Lift");
-        dataSet.setValue(Integer.parseInt(floorLift), "lifting from\nthe floor", "Floor Lift");
+       
+        dataSet.setValue(Double.parseDouble(highNear), "lifting from\nthe shoulders", "High Near");
+        dataSet.setValue(Double.parseDouble(highFar), "lifting above\nthe shoulders", "High Far");
+        dataSet.setValue(Double.parseDouble(waistLift), "lifting from\nthe waist", "Waist Lift");
+        dataSet.setValue(Double.parseDouble(kneeLift), "lifting from\nthe knees", "Knee Lift");
+        dataSet.setValue(Double.parseDouble(floorLift), "lifting from\nthe floor", "Floor Lift");
 
         //JFreeChart chart2 = ChartFactory.createBarChart(title, categoryAxisLabel, valueAxisLabel, dataSet, PlotOrientation.HORIZONTAL, true, true, true)
         JFreeChart chart = ChartFactory.createBarChart(
@@ -308,18 +313,6 @@ public class gui extends javax.swing.JFrame {
         kneeLiftValue3 = new javax.swing.JLabel();
         waistLiftValue3 = new javax.swing.JLabel();
         floorLiftValue3 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        overviewLabel7 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        highNearValueSummary = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        highFarValueSummary = new javax.swing.JLabel();
-        kneeLiftValueSummary = new javax.swing.JLabel();
-        waistLiftValueSummary = new javax.swing.JLabel();
-        floorLiftValueSummary = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         overviewLabel8 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
@@ -340,6 +333,8 @@ public class gui extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        currentReadingLabel = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -591,7 +586,7 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(highNearValue2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(overviewLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(overviewLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -727,115 +722,6 @@ public class gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(floorLiftValue3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-        );
-
-        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        overviewLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        overviewLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        overviewLabel7.setText("SUMMARY");
-        overviewLabel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel36.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel36.setText("HIGH NEAR");
-
-        highNearValueSummary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        highNearValueSummary.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        highNearValueSummary.setText("4");
-        highNearValueSummary.setMaximumSize(new java.awt.Dimension(8, 20));
-        highNearValueSummary.setMinimumSize(new java.awt.Dimension(8, 20));
-        highNearValueSummary.setPreferredSize(new java.awt.Dimension(8, 20));
-
-        jLabel37.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel37.setText("HIGH FAR");
-
-        jLabel38.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel38.setText("WAIST LIFT");
-
-        jLabel39.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel39.setText("KNEE LIFT");
-
-        jLabel40.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel40.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel40.setText("FLOOR LIFT");
-
-        highFarValueSummary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        highFarValueSummary.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        highFarValueSummary.setText("10");
-        highFarValueSummary.setMaximumSize(new java.awt.Dimension(8, 20));
-        highFarValueSummary.setMinimumSize(new java.awt.Dimension(8, 20));
-        highFarValueSummary.setPreferredSize(new java.awt.Dimension(8, 20));
-
-        kneeLiftValueSummary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        kneeLiftValueSummary.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        kneeLiftValueSummary.setText("150");
-        kneeLiftValueSummary.setMaximumSize(new java.awt.Dimension(8, 20));
-        kneeLiftValueSummary.setMinimumSize(new java.awt.Dimension(8, 20));
-        kneeLiftValueSummary.setPreferredSize(new java.awt.Dimension(8, 20));
-
-        waistLiftValueSummary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        waistLiftValueSummary.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        waistLiftValueSummary.setText("42");
-        waistLiftValueSummary.setMaximumSize(new java.awt.Dimension(8, 20));
-        waistLiftValueSummary.setMinimumSize(new java.awt.Dimension(8, 20));
-        waistLiftValueSummary.setPreferredSize(new java.awt.Dimension(8, 20));
-
-        floorLiftValueSummary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        floorLiftValueSummary.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        floorLiftValueSummary.setText("69");
-        floorLiftValueSummary.setMaximumSize(new java.awt.Dimension(8, 20));
-        floorLiftValueSummary.setMinimumSize(new java.awt.Dimension(8, 20));
-        floorLiftValueSummary.setPreferredSize(new java.awt.Dimension(8, 20));
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(floorLiftValueSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel40, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(kneeLiftValueSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(waistLiftValueSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(highFarValueSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(highNearValueSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel37, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addComponent(overviewLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(overviewLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel36)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(highNearValueSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel37)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(highFarValueSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel38)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(waistLiftValueSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel39)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kneeLiftValueSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel40)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(floorLiftValueSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
@@ -1037,19 +923,30 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        currentReadingLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        currentReadingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        currentReadingLabel.setText("0.00");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel11.setText("CURRENT READING");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(currentReadingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1068,18 +965,19 @@ public class gui extends javax.swing.JFrame {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(currentReadingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(208, 208, 208)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -1822,13 +1720,6 @@ public class gui extends javax.swing.JFrame {
             kneeLiftValue3.setText("0");
             floorLiftValue3.setText("0");
 
-            /*reset record for first try*/
-            highNearValueSummary.setText("0");
-            highFarValueSummary.setText("0");
-            waistLiftValueSummary.setText("0");
-            kneeLiftValueSummary.setText("0");
-            floorLiftValueSummary.setText("0");
-
             /*coefficient of variation*/
             highNearCVValue.setText("0");
             highFarCVValue.setText("0");
@@ -2003,17 +1894,16 @@ public class gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField address;
     private javax.swing.JComboBox<String> comPorts;
+    private javax.swing.JLabel currentReadingLabel;
     private javax.swing.JTextField dateBirth;
     private javax.swing.JLabel floorLiftCVValue;
     private javax.swing.JLabel floorLiftValue1;
     private javax.swing.JLabel floorLiftValue2;
     private javax.swing.JLabel floorLiftValue3;
-    private javax.swing.JLabel floorLiftValueSummary;
     private javax.swing.JLabel highFarCVValue;
     private javax.swing.JLabel highFarValue1;
     private javax.swing.JLabel highFarValue2;
     private javax.swing.JLabel highFarValue3;
-    private javax.swing.JLabel highFarValueSummary;
     private javax.swing.JLabel highNearCVValue;
     private javax.swing.JLabel highNearValue1;
     private javax.swing.JLabel highNearValue11;
@@ -2023,7 +1913,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel highNearValue2;
     private javax.swing.JLabel highNearValue3;
     private javax.swing.JLabel highNearValue9;
-    private javax.swing.JLabel highNearValueSummary;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -2035,6 +1924,7 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -2056,12 +1946,7 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
@@ -2075,7 +1960,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -2092,7 +1976,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel kneeLiftValue1;
     private javax.swing.JLabel kneeLiftValue2;
     private javax.swing.JLabel kneeLiftValue3;
-    private javax.swing.JLabel kneeLiftValueSummary;
     private javax.swing.JTextField liftingTimeValue;
     private javax.swing.JTextField numberOfSamplesValue;
     private javax.swing.JTextField officeName;
@@ -2100,7 +1983,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel overviewLabel1;
     private javax.swing.JLabel overviewLabel2;
     private javax.swing.JLabel overviewLabel4;
-    private javax.swing.JLabel overviewLabel7;
     private javax.swing.JLabel overviewLabel8;
     private javax.swing.JTextField phoneNumber;
     private javax.swing.JLabel statusLabel;
@@ -2110,6 +1992,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel waistLiftValue1;
     private javax.swing.JLabel waistLiftValue2;
     private javax.swing.JLabel waistLiftValue3;
-    private javax.swing.JLabel waistLiftValueSummary;
     // End of variables declaration//GEN-END:variables
+
 }

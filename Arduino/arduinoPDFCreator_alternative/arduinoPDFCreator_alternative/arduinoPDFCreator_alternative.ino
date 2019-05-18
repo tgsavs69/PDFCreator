@@ -1,3 +1,5 @@
+#include "displayFile.h"
+
 int temporaryReads[16];
 int currentStage = 0;
 int currentTry = 1;
@@ -8,16 +10,38 @@ int refreshRate = 500;
 int lastReadTime = 0;
 bool testStarted = false;
 bool liftReleased = false;
+double currentReading = 0.0;
 
+long updateCurrentReading = 0;
+
+const int numberOfStages = 5;
+const int numberOfTries = 3;
 //store the names of the stages
 const String stages[] = {"HIGH NEAR", "HIGH FAR", "WAIST LIFT", "KNEE LIFT", "FLOOR LIFT"};
 //store the pins used by the switches
 const int switchPins[] = {/*HIGH NEAR*/12, /*HIGH FAR*/ 11,/*WAIST LIFT*/ 10,/*KNEE LIFT*/ 9, /*FLOOR LIFT*/8};
 
-double maximum[5][3];
+double maximum[numberOfStages][numberOfTries];
 
 
-#include "displayFile.h"
+void resetData() {
+  currentStage = 0;
+  currentTry = 1;
+  liftStarted = false;
+  liftReleased = false;
+  testStarted = false;
+  currentReading = 0.0;
+  updateCurrentReading = 0;
+  for (int i = 0; i < numberOfStages; i++) {
+    for (int j = 0; j < numberOfTries; j++) {
+      maximum[i][j] = 0;
+    }
+  }
+
+  displayMessage("WELCOME", "TO THE TEST");
+}
+
+
 /*file responsabile for receiving and transmitting data to client*/
 #include "serialEvent.h"
 #include "loadCell.h"
@@ -35,6 +59,16 @@ void setup() {
 }
 
 void loop() {
+  currentReading = scale.get_units();
+  if (millis() - updateCurrentReading > refreshRate) {
+    String tempCurrentReading = "currentReading:";
+    tempCurrentReading += String(currentReading);
+    tempCurrentReading += "#";
+    Serial.println(tempCurrentReading);
+    updateCurrentReading = millis();
+  }
+
+
   if (testStarted == false) return;
 
   if (digitalRead(switchPins[currentStage]) == 1 && liftStarted == false) {
@@ -42,19 +76,19 @@ void loop() {
     return;
   }
 
-  if (liftReleased == false && liftStarted == true && scale.get_units() > 1) {
+  if (liftReleased == false && liftStarted == true && currentReading > 1) {
     displayMessage("RELEASE", "   THE LIFT");
     return;
   }
 
-  if (liftStarted == false && scale.get_units() < 1) {
+  if (liftStarted == false && currentReading < 1) {
     displayMessage("STAGE " + stages[currentStage], "ATTEMPT " + String(currentTry));
     lastReadTime = 0;
     return;
   }
 
 
-  if (liftStarted == false && scale.get_units() > 1) {
+  if (liftStarted == false && currentReading > 1) {
     liftStarted = true;
     startLiftingTime = millis();
     displayMessage("LIFT STARTED", "    STARTED");
@@ -66,7 +100,7 @@ void loop() {
 
     if ((millis() - startLiftingTime) / refreshRate != lastReadTime) {
       lastReadTime = (millis() - startLiftingTime) / refreshRate;
-      double tempReading = scale.get_units();
+      double tempReading = currentReading;
 
       if (maximum[currentStage][currentTry - 1] < tempReading) {
         maximum[currentStage][currentTry - 1] = tempReading;
@@ -102,7 +136,7 @@ void loop() {
 
 
     }
-    if (scale.get_units() < 1) liftStarted = false;
+    if (currentReading < 1) liftStarted = false;
 
   }
 
